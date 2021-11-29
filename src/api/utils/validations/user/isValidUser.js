@@ -13,8 +13,6 @@ const isValidUser = (user) => {
         password: Joi.string()
             .required()
             .messages({ 'any.required': 'Invalid entries. Try again.' }),
-            
-        role: Joi.string(),
     });
     const { error } = schema.validate(user);
     

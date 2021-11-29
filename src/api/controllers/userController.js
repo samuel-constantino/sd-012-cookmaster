@@ -3,10 +3,18 @@ const { StatusCodes } = require('http-status-codes');
 const { userService } = require('../services');
 const { isValidUser } = require('../utils/validations/user');
 
-const create = async (req, res) => {
-    const { name, email, password, role } = req.body;
+const formatResponse = (response) => {
+    const { _id, name, email, role } = response;
 
-    const userValided = isValidUser({ name, email, password, role });
+    return {
+        user: { name, email, role, _id },
+    };
+};
+
+const create = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    const userValided = isValidUser({ name, email, password });
 
     // Se houver um código de erro
     if (userValided.code) {
@@ -14,14 +22,14 @@ const create = async (req, res) => {
         res.status(code).json({ message });
     }
 
-    const result = await userService.create({ name, email, password, role });
+    const result = await userService.create({ name, email, password });
 
     if (result.code) {
         const { code, message } = result;
         res.status(code).json({ message });
     }
     
-    return res.status(StatusCodes.CREATED).json(result);
+    return res.status(StatusCodes.CREATED).json(formatResponse(result));
 };
 
 module.exports = {

@@ -2,6 +2,14 @@ const { ObjectId } = require('mongodb');
 const { StatusCodes } = require('http-status-codes');
 const { connection } = require('./connection');
 
+const getByEmail = async (email) => {
+    const db = await connection();
+
+    const userFound = await db.collection('users').findOne({ email });
+
+    return userFound;
+};
+
 const getById = async (id) => {
     const db = await connection();
 
@@ -28,5 +36,6 @@ const create = async (user) => {
 };
 
 module.exports = {
+    getByEmail,
     create,
 };
