@@ -20,7 +20,8 @@ const create = async (req, res) => {
         const { code, message } = result;
         res.status(code).json({ message });
     }
-    res.status(StatusCodes.CREATED).json(result);
+    
+    return res.status(StatusCodes.CREATED).json(result);
 };
 
 module.exports = {
