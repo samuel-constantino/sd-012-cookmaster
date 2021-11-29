@@ -6,7 +6,7 @@ const errorMiddleware = require('./middlewares/errorMiddleware');
 
 app.use(json());
 
-app.use('/users', userRouter);
+app.use('/', userRouter);
 
 app.use(errorMiddleware);
 

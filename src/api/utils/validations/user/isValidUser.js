@@ -2,7 +2,9 @@ const Joi = require('joi');
 
 const isValidUser = (user) => {
     const schema = Joi.object({
-        name: Joi.string().required().messages({ 'any.required': 'Invalid entries. Try again.' }),
+        name: Joi.string()
+            .required()
+            .messages({ 'any.required': 'Invalid entries. Try again.' }),
     
         email: Joi.string()
             .regex(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
