@@ -11,46 +11,54 @@ const formatResponse = (response) => {
     };
 };
 
-const login = async (req, res) => {
-    const { email, password } = req.body;
-
-    const loginValided = isValidLogin({ email, password });
-
-    // Se houver um código de erro
-    if (loginValided.code) {
-        const { code, message } = loginValided;
-        res.status(code).json({ message });
-    }
+const login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
     
-    const result = await userService.login({ email, password });
-
-    if (result.code) {
-        const { code, message } = result;
-        res.status(code).json({ message });
-    }
+        const loginValided = isValidLogin({ email, password });
     
-    return res.status(StatusCodes.OK).json(formatResponse(result));
+        // Se houver um código de erro
+        if (loginValided.code) {
+            const { code, message } = loginValided;
+            res.status(code).json({ message });
+        }
+        
+        const result = await userService.login({ email, password });
+    
+        if (result.code) {
+            const { code, message } = result;
+            res.status(code).json({ message });
+        }
+        
+        return res.status(StatusCodes.OK).json(formatResponse(result));
+    } catch (err) {
+        next(err);
+    }
 };
 
-const create = async (req, res) => {
-    const { name, email, password } = req.body;
-
-    const userValided = isValidUser({ name, email, password });
-
-    // Se houver um código de erro
-    if (userValided.code) {
-        const { code, message } = userValided;
-        res.status(code).json({ message });
-    }
-
-    const result = await userService.create({ name, email, password });
-
-    if (result.code) {
-        const { code, message } = result;
-        res.status(code).json({ message });
-    }
+const create = async (req, res, next) => {
+    try {
+        const { name, email, password } = req.body;
     
-    return res.status(StatusCodes.CREATED).json(formatResponse(result));
+        const userValided = isValidUser({ name, email, password });
+    
+        // Se houver um código de erro
+        if (userValided.code) {
+            const { code, message } = userValided;
+            res.status(code).json({ message });
+        }
+    
+        const result = await userService.create({ name, email, password });
+    
+        if (result.code) {
+            const { code, message } = result;
+            res.status(code).json({ message });
+        }
+        
+        return res.status(StatusCodes.CREATED).json(formatResponse(result));
+    } catch (err) {
+        next(err);
+    }
 };
 
 module.exports = {
