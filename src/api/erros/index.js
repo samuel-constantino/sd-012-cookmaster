@@ -15,8 +15,14 @@ const INCORRECT_USERNAME_OR_PASSWORD = {
     message: 'Incorrect username or password',
 };
 
+const EMAIL_ALREADY_REGISTERED = {
+    status: StatusCodes.CONFLICT,
+    message: 'Email already registered',
+};
+
 module.exports = {
     INVALID_ENTRIES,
     ALL_ENTRIES_FILLED,
     INCORRECT_USERNAME_OR_PASSWORD,
+    EMAIL_ALREADY_REGISTERED,
 };

@@ -14,20 +14,12 @@ const formatResponse = (response) => {
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-    
-        // const loginValided = isValidLogin({ email, password });
-    
-        // // Se houver um código de erro
-        // if (loginValided.code) {
-        //     const { code, message } = loginValided;
-        //     return res.status(code).json({ message });
-        // }
         
         const result = await userService.login({ email, password });
     
-        if (result.code) {
-            const { code, message } = result;
-            return res.status(code).json({ message });
+        if (result.status) {
+            const { status, message } = result;
+            return res.status(status).json({ message });
         }
         
         return res.status(StatusCodes.OK).json(formatResponse(result));
@@ -42,9 +34,9 @@ const create = async (req, res, next) => {
     
         const result = await userService.create({ name, email, password });
     
-        if (result.code) {
-            const { code, message } = result;
-            return res.status(code).json({ message });
+        if (result.status) {
+            const { status, message } = result;
+            return res.status(status).json({ message });
         }
         
         return res.status(StatusCodes.CREATED).json(formatResponse(result));

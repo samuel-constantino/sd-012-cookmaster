@@ -4,6 +4,7 @@ const checkUserEmail = require('../helpers/checkUserEmail');
 
 const userValid = (req, _res, next) => {
     const { email, password } = req.body;
+    
     if (!checkUserEmail(email) || !checkUserFields([password])) {
         next(ALL_ENTRIES_FILLED);
     }
