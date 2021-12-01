@@ -34,20 +34,12 @@ const getAll = async (_req, res, next) => {
     }
 };
 
-const formatResponse = (response, userId) => {
-    const { _id, name, ingredients, preparation } = response;
-
-    return {
-        recipe: { name, ingredients, preparation, userId, _id },
-    };
-};
-
 const create = async (req, res, next) => {
     try {
         const { name, ingredients, preparation } = req.body;
-        const { _id: id } = req.user;
+        const { _id: userId } = req.user;
 
-        const recipe = { name, ingredients, preparation, urlImage: '', id };
+        const recipe = { name, ingredients, preparation, urlImage: '', userId };
 
         const result = await recipeService.create(recipe);
     
@@ -55,8 +47,14 @@ const create = async (req, res, next) => {
             const { status, message } = result;
             return res.status(status).json({ message });
         }
+
+        const { _id } = result;
+
+        const formatedResponse = {
+            recipe: { name, ingredients, preparation, userId, _id },
+        };
         
-        return res.status(StatusCodes.CREATED).json(formatResponse(result, id));
+        return res.status(StatusCodes.CREATED).json(formatedResponse);
     } catch (err) {
         next(err);
     }
