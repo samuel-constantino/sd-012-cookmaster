@@ -1,19 +1,12 @@
 const jwt = require('jsonwebtoken');
-const { StatusCodes } = require('http-status-codes');
 
 const { userModel } = require('../models');
 const { INCORRECT_USERNAME_OR_PASSWORD, EMAIL_ALREADY_REGISTERED } = require('../erros');
 
-const getToken = (payload) => {
-    const SECRET = 'batatinhafrita123';
-    const OPTIONS = {
-        expiresIn: '1d',
-        algorithm: 'HS256',
-    };
-
-    const token = jwt.sign(payload, SECRET, OPTIONS);
-
-    return token;
+const SECRET = 'batatinhafrita123';
+const OPTIONS = {
+    expiresIn: '1d',
+    algorithm: 'HS256',
 };
 
 const login = async ({ email, password }) => {
@@ -23,12 +16,11 @@ const login = async ({ email, password }) => {
         return INCORRECT_USERNAME_OR_PASSWORD;
     }
 
-    const { _idFound, emailFound, roleFound } = userFound;
-    const payload = { _idFound, emailFound, roleFound };
+    const { password: passBD, name, ...payload } = userFound;
 
-    const token = getToken(payload);
+    const token = jwt.sign({ data: payload }, SECRET, OPTIONS);
 
-    return { code: StatusCodes.OK, message: token };
+    return { token };
 };
 
 const create = async (user) => {

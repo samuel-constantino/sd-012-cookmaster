@@ -1,7 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 
 const { userService } = require('../services');
-// const { isValidLogin } = require('../utils/validations/user');
 
 const formatResponse = (response) => {
     const { _id, name, email, role } = response;
@@ -22,7 +21,7 @@ const login = async (req, res, next) => {
             return res.status(status).json({ message });
         }
         
-        return res.status(StatusCodes.OK).json(formatResponse(result));
+        return res.status(StatusCodes.OK).json(result);
     } catch (err) {
         next(err);
     }

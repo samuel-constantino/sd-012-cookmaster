@@ -1,11 +1,11 @@
 const { INVALID_ENTRIES } = require('../../erros');
 const checkFields = require('../helpers/checkFields');
-const checkUserEmail = require('../helpers/checkUserEmail');
 
 const userValid = (req, _res, next) => {
-    const { name, email, password } = req.body;
+    const { name, ingredients, preparation } = req.body;
 
-    const checked = checkFields([name, email, password]) && checkUserEmail(email);
+    const checked = checkFields([name, ingredients, preparation]);
+    
     if (!checked) next(INVALID_ENTRIES);
 
     next();
