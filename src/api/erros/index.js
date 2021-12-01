@@ -20,9 +20,15 @@ const EMAIL_ALREADY_REGISTERED = {
     message: 'Email already registered',
 };
 
+const RECIPE_NOT_FOUND = {
+    status: StatusCodes.NOT_FOUND,
+    message: 'recipe not found',
+};
+
 module.exports = {
     INVALID_ENTRIES,
     ALL_ENTRIES_FILLED,
     INCORRECT_USERNAME_OR_PASSWORD,
     EMAIL_ALREADY_REGISTERED,
+    RECIPE_NOT_FOUND,
 };

@@ -11,4 +11,6 @@ route.post('/', auth, recipeValid, recipeController.create);
 
 route.get('/', recipeController.getAll);
 
+route.get('/:id', recipeController.getById);
+
 module.exports = route;

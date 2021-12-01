@@ -36,6 +36,7 @@ const create = async (recipe) => {
 };
 
 module.exports = {
-    create,
     getAll,
+    getById,
+    create,
 };
