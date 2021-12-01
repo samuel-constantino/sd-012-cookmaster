@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const { recipeModel } = require('../models');
-const { RECIPE_NOT_FOUND, RECIPE_LIST_NOT_FOUND } = require('../erros');
+const { RECIPE_NOT_FOUND } = require('../erros');
 
 const isValidId = (id) => {
     if (ObjectId.isValid(id)) {
@@ -34,15 +34,17 @@ const update = async (user, recipe) => {
     const { id: recipeId } = recipe;
     const { userId, role } = user;
 
+    let userRecipes = [];
+
     if (!isValidId(recipeId)) return RECIPE_NOT_FOUND;
     
-    const userRecipes = await recipeModel.getByUser(userId);
-    
-    if (!userRecipes.length) return RECIPE_LIST_NOT_FOUND;
-    
-    const userRecipe = userRecipes.find(({ _id }) => _id.toString() === recipeId);
-    
-    if (!userRecipe) return RECIPE_NOT_FOUND;
+    if (role !== 'admin') {
+        userRecipes = await recipeModel.getByUser(userId);
+        
+        const userRecipe = userRecipes.find(({ _id }) => _id.toString() === recipeId);
+        
+        if (!userRecipe) return RECIPE_NOT_FOUND;
+    }
 
     const result = await recipeModel.update(recipe);
 
