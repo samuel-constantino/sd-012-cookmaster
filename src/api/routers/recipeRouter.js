@@ -13,4 +13,6 @@ route.get('/', recipeController.getAll);
 
 route.get('/:id', recipeController.getById);
 
+route.put('/:id', auth, recipeController.update);
+
 module.exports = route;

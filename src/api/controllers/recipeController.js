@@ -60,8 +60,31 @@ const create = async (req, res, next) => {
     }
 };
 
+const update = async (req, res, next) => {
+    try {
+        const { name, ingredients, preparation } = req.body;
+        const { id } = req.params;
+        const { _id: userId, role } = req.user;
+
+        const user = { userId, role };
+        const recipe = { id, name, ingredients, preparation };
+
+        const result = await recipeService.update(user, recipe);
+    
+        if (result.status) {
+            const { status, message } = result; 
+            return res.status(status).json({ message });
+        }
+        
+        return res.status(StatusCodes.OK).json(result);
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     getAll,
     getById,
     create,
+    update,
 };

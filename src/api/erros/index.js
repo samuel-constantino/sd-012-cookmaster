@@ -25,10 +25,16 @@ const RECIPE_NOT_FOUND = {
     message: 'recipe not found',
 };
 
+const RECIPE_LIST_NOT_FOUND = {
+    status: StatusCodes.NOT_FOUND,
+    message: 'recipe list not found',
+};
+
 module.exports = {
     INVALID_ENTRIES,
     ALL_ENTRIES_FILLED,
     INCORRECT_USERNAME_OR_PASSWORD,
     EMAIL_ALREADY_REGISTERED,
     RECIPE_NOT_FOUND,
+    RECIPE_LIST_NOT_FOUND,
 };

@@ -1,11 +1,6 @@
 const { ObjectId } = require('mongodb');
 const { recipeModel } = require('../models');
-const { RECIPE_NOT_FOUND } = require('../erros');
-
-const getAll = async () => {
-    const result = await recipeModel.getAll();
-    return result;
-};
+const { RECIPE_NOT_FOUND, RECIPE_LIST_NOT_FOUND } = require('../erros');
 
 const isValidId = (id) => {
     if (ObjectId.isValid(id)) {
@@ -13,6 +8,11 @@ const isValidId = (id) => {
         return false;
     }
     return false;
+};
+
+const getAll = async () => {
+    const result = await recipeModel.getAll();
+    return result;
 };
 
 const getById = async (id) => {
@@ -30,8 +30,30 @@ const create = async (recipe) => {
     return result;
 };
 
+const update = async (user, recipe) => {
+    const { id: recipeId } = recipe;
+    const { userId, role } = user;
+
+    if (!isValidId(recipeId)) return RECIPE_NOT_FOUND;
+    
+    const userRecipes = await recipeModel.getByUser(userId);
+    
+    if (!userRecipes.length) return RECIPE_LIST_NOT_FOUND;
+    
+    const userRecipe = userRecipes.find(({ _id }) => _id.toString() === recipeId);
+    
+    if (!userRecipe) return RECIPE_NOT_FOUND;
+
+    const result = await recipeModel.update(recipe);
+
+    if (!result) return RECIPE_NOT_FOUND;
+
+    return result;
+};
+
 module.exports = {
     getAll,
     getById,
     create,
+    update,
 };
