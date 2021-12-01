@@ -2,12 +2,20 @@ const { ObjectId } = require('mongodb');
 const { StatusCodes } = require('http-status-codes');
 const { connection } = require('./connection');
 
+const getAll = async () => {
+    const db = await connection();
+
+    const recipes = await db.collection('recipes').find().toArray();
+
+    return recipes;
+};
+
 const getById = async (id) => {
     const db = await connection();
 
-    const recipeFound = await db.collection('recipes').findOne({ _id: ObjectId(id) });
+    const recipe = await db.collection('recipes').findOne({ _id: ObjectId(id) });
 
-    return recipeFound;
+    return recipe;
 };
 
 const create = async (recipe) => {
@@ -29,4 +37,5 @@ const create = async (recipe) => {
 
 module.exports = {
     create,
+    getAll,
 };

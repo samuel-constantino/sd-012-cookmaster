@@ -30,6 +30,22 @@ const create = async (req, res, next) => {
     }
 };
 
+const getAll = async (_req, res, next) => {
+    try {
+        const result = await recipeService.getAll();
+    
+        if (result.status) {
+            const { status, message } = result; 
+            return res.status(status).json({ message });
+        }
+        
+        return res.status(StatusCodes.OK).json(result);
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     create,
+    getAll,
 };

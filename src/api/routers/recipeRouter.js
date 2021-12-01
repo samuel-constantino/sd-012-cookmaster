@@ -7,6 +7,8 @@ const { recipeController } = require('../controllers');
 
 const route = express.Router();
 
-route.post('/recipes', auth, recipeValid, recipeController.create);
+route.post('/', auth, recipeValid, recipeController.create);
+
+route.get('/', recipeController.getAll);
 
 module.exports = route;

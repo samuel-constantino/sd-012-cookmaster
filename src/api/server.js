@@ -8,7 +8,7 @@ app.use(json());
 
 app.use('/', userRouter);
 
-app.use('/', recipeRouter);
+app.use('/recipes', recipeRouter);
 
 app.use(errorMiddleware);
 
