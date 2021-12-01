@@ -59,8 +59,18 @@ const update = async (recipe) => {
     await db.collection('recipes').update(query, updateKeys);
 
     const recipeFound = await getById(id);
-    
+
     return recipeFound;
+};
+
+const remove = async (id) => {
+    const query = { _id: ObjectId(id) };
+
+    const db = await connection();
+    
+    const { result } = await db.collection('recipes').deleteOne(query);
+    
+    return result.ok;
 };
 
 module.exports = {
@@ -69,4 +79,5 @@ module.exports = {
     getById,
     create,
     update,
+    remove,
 };

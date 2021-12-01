@@ -53,9 +53,31 @@ const update = async (user, recipe) => {
     return result;
 };
 
+const remove = async (id, user) => {
+    const { userId, role } = user;
+    let userRecipes = [];
+
+    if (!isValidId(id)) return RECIPE_NOT_FOUND;
+    
+    if (role !== 'admin') {
+        userRecipes = await recipeModel.getByUser(userId);
+        
+        const userRecipe = userRecipes.find(({ _id }) => _id.toString() === id);
+        
+        if (!userRecipe) return RECIPE_NOT_FOUND;
+    }
+
+    const result = await recipeModel.remove(id);
+
+    if (!result) return RECIPE_NOT_FOUND;
+
+    return result;
+};
+
 module.exports = {
     getAll,
     getById,
     create,
     update,
+    remove,
 };
