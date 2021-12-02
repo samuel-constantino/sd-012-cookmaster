@@ -101,10 +101,30 @@ const remove = async (req, res, next) => {
     }
 };
 
+const uploadImage = async (req, res, next) => {
+    try {
+        const { file } = req;
+        const { _id: userId, role } = req.user;
+        const user = { userId, role };
+        
+        const result = await recipeService.uploadImage(file, user);
+    
+        if (result.status) {
+            const { status, message } = result; 
+            return res.status(status).json({ message });
+        }
+        
+        return res.status(StatusCodes.OK).json(result);
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     getAll,
     getById,
     create,
     update,
     remove,
+    uploadImage,
 };

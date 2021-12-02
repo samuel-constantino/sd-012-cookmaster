@@ -4,10 +4,13 @@ const auth = require('../middlewares/auth');
 const recipeValid = require('../middlewares/validations/recipeValid');
 
 const { recipeController } = require('../controllers');
+const upload = require('../middlewares/upload');
 
 const route = express.Router();
 
 route.post('/', auth, recipeValid, recipeController.create);
+
+route.post('/:id/image', auth, upload, recipeController.uploadImage);
 
 route.get('/', recipeController.getAll);
 

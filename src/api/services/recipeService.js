@@ -74,6 +74,24 @@ const remove = async (id, user) => {
     return result;
 };
 
+// const uploadImage = async (file, user) => {
+//     const { userId, role } = user;
+    
+//     if (role !== 'admin') {
+//         userRecipes = await recipeModel.getByUser(userId);
+        
+//         const userRecipe = userRecipes.find(({ _id }) => _id.toString() === recipeId);
+        
+//         if (!userRecipe) return RECIPE_NOT_FOUND;
+//     }
+
+//     const result = await recipeModel.update(recipe);
+
+//     if (!result) return RECIPE_NOT_FOUND;
+
+//     return result;
+// };
+
 module.exports = {
     getAll,
     getById,
