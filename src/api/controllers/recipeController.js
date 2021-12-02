@@ -107,8 +107,7 @@ const uploadImage = async (req, res, next) => {
 
         const { file } = req;
         
-        const filePath = file.path.split('src')[1];
-        const image = `localhost:3000/src${filePath}`;
+        const image = `localhost:3000/src/uploads/${file.filename}`;
 
         const { _id: userId, role } = req.user;
         const user = { userId, role };
