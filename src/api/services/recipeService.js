@@ -74,23 +74,27 @@ const remove = async (id, user) => {
     return result;
 };
 
-// const uploadImage = async (file, user) => {
-//     const { userId, role } = user;
+const uploadImage = async ({ recipeId, image, user }) => {
+    const { userId, role } = user;
+
+    let userRecipes = [];
+
+    if (!isValidId(recipeId)) return RECIPE_NOT_FOUND;
     
-//     if (role !== 'admin') {
-//         userRecipes = await recipeModel.getByUser(userId);
+    if (role !== 'admin') {
+        userRecipes = await recipeModel.getByUser(userId);
         
-//         const userRecipe = userRecipes.find(({ _id }) => _id.toString() === recipeId);
+        const userRecipe = userRecipes.find(({ _id }) => _id.toString() === recipeId);
         
-//         if (!userRecipe) return RECIPE_NOT_FOUND;
-//     }
+        if (!userRecipe) return RECIPE_NOT_FOUND;
+    }
 
-//     const result = await recipeModel.update(recipe);
+    const result = await recipeModel.uploadImage({ recipeId, image });
 
-//     if (!result) return RECIPE_NOT_FOUND;
+    if (!result) return RECIPE_NOT_FOUND;
 
-//     return result;
-// };
+    return result;
+};
 
 module.exports = {
     getAll,
@@ -98,4 +102,5 @@ module.exports = {
     create,
     update,
     remove,
+    uploadImage,
 };

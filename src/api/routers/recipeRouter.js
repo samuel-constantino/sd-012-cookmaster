@@ -10,11 +10,11 @@ const route = express.Router();
 
 route.post('/', auth, recipeValid, recipeController.create);
 
-route.post('/:id/image', auth, upload, recipeController.uploadImage);
-
 route.get('/', recipeController.getAll);
 
 route.get('/:id', recipeController.getById);
+
+route.put('/:id/image', auth, upload, recipeController.uploadImage);
 
 route.put('/:id', auth, recipeController.update);
 

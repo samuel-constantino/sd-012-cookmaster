@@ -56,7 +56,7 @@ const update = async (recipe) => {
 
     // const recipeFound = await db.collection('recipes').findOneAndUpdate(query, updateKeys, options);
     
-    await db.collection('recipes').update(query, updateKeys);
+    await db.collection('recipes').updateOne(query, updateKeys);
 
     const recipeFound = await getById(id);
 
@@ -73,6 +73,24 @@ const remove = async (id) => {
     return result.ok;
 };
 
+const uploadImage = async ({ recipeId, image }) => {
+    const query = { _id: ObjectId(recipeId) };
+
+    const updateKeys = { $set: { image } };
+
+    const db = await connection();
+    
+    // const options = { returnNewDocument: true };
+
+    // const recipeFound = await db.collection('recipes').findOneAndUpdate(query, updateKeys, options);
+    
+    await db.collection('recipes').updateOne(query, updateKeys);
+
+    const recipeFound = await getById(recipeId);
+
+    return recipeFound;
+};
+
 module.exports = {
     getAll,
     getByUser,
@@ -80,4 +98,5 @@ module.exports = {
     create,
     update,
     remove,
+    uploadImage,
 };

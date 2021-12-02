@@ -39,7 +39,7 @@ const create = async (req, res, next) => {
         const { name, ingredients, preparation } = req.body;
         const { _id: userId } = req.user;
 
-        const recipe = { name, ingredients, preparation, urlImage: '', userId };
+        const recipe = { name, ingredients, preparation, userId, image: '' };
 
         const result = await recipeService.create(recipe);
     
@@ -103,11 +103,17 @@ const remove = async (req, res, next) => {
 
 const uploadImage = async (req, res, next) => {
     try {
+        const { id: recipeId } = req.params;
+
         const { file } = req;
+        
+        const filePath = file.path.split('src')[1];
+        const image = `localhost:3000/src${filePath}`;
+
         const { _id: userId, role } = req.user;
         const user = { userId, role };
         
-        const result = await recipeService.uploadImage(file, user);
+        const result = await recipeService.uploadImage({ recipeId, image, user });
     
         if (result.status) {
             const { status, message } = result; 
